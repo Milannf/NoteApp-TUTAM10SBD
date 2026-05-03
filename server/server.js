@@ -29,7 +29,7 @@ mongoose.connect(uri)
   .catch(err => console.error("MongoDB connection error:", err));
 
 app.get('/', (req, res) => {
-  res.send('NoteApp API is live!');
+  res.send('Ini tanda kalau backend berhasil');
 });
 
 const notesRouter = require('./routes/notes');
