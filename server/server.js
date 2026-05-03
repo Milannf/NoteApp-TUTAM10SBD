@@ -5,17 +5,29 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware
-app.use(cors()); // Allows your Next.js frontend to connect
-app.use(express.json()); // Parses incoming JSON requests
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://note-app-tutam-10-sbd-mynw.vercel.app'
+];
 
-// MongoDB Connection
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+app.use(express.json()); 
+
 const uri = process.env.MONGODB_URI;
 mongoose.connect(uri)
-  .then(() => console.log("🍃 MongoDB connection established!"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log("MongoDB connection established!"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
-// Test Route
 app.get('/', (req, res) => {
   res.send('NoteApp API is live!');
 });
@@ -26,5 +38,5 @@ const notesRouter = require('./routes/notes');
 app.use('/api/notes', notesRouter);
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
