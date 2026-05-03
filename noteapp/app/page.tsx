@@ -11,7 +11,8 @@ interface Note {
   createdAt: string;
 }
 
-const API_URL = "http://localhost:5000/api/notes";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = `${BASE_URL}/api/notes`;
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
