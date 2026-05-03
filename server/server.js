@@ -7,7 +7,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://note-app-tutam-10-sbd.vercel.app'  
+  'https://note-app-tutam-10-sbd.vercel.app'
 ];
 
 app.use(cors({
@@ -21,7 +21,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json()); 
+app.use(express.json());
 
 const uri = process.env.MONGODB_URI;
 mongoose.connect(uri)
@@ -32,11 +32,14 @@ app.get('/', (req, res) => {
   res.send('NoteApp API is live!');
 });
 
-const PORT = process.env.PORT || 5000;
-
 const notesRouter = require('./routes/notes');
 app.use('/api/notes', notesRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
