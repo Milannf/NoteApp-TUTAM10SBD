@@ -7,7 +7,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://note-app-tutam-10-sbd-mynw.vercel.app'
+  'https://note-app-tutam-10-sbd.vercel.app'  
 ];
 
 app.use(cors({
